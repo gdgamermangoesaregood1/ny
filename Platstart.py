@@ -1,5 +1,6 @@
 import pygame
 import sys
+from enemyai import Enemy
 
 # Initialize Pygame
 pygame.init()
@@ -8,7 +9,7 @@ pygame.init()
 WIDTH, HEIGHT = 800, 600
 FPS = 60
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("rishi likes men")
+pygame.display.set_caption("Simple Platformer")
 clock = pygame.time.Clock()
 
 # Colors
@@ -87,13 +88,16 @@ def main():
         pygame.Rect(500, 180, 180, 20),
     ]
 
+    enemy = Enemy(platforms[0], 350, WIDTH)
+
     # Define collectible coins
-    coins = [
+    coin_spawns = [
         pygame.Rect(215, 410, 20, 20),
         pygame.Rect(465, 320, 20, 20),
         pygame.Rect(265, 220, 20, 20),
         pygame.Rect(580, 140, 20, 20),
     ]
+    coins = [coin.copy() for coin in coin_spawns]
 
     score = 0
     font = pygame.font.SysFont(None, 36)
@@ -110,6 +114,12 @@ def main():
 
         # Update player
         player.move(platforms)
+        enemy.update(player, platforms)
+
+        if player.rect.colliderect(enemy.rect) or player.rect.top >= HEIGHT:
+            player = Player(100, 450)
+            score = 0
+            coins = [coin.copy() for coin in coin_spawns]
 
         # Check coin collection
         for coin in coins[:]:
@@ -127,6 +137,7 @@ def main():
             pygame.draw.ellipse(screen, GOLD, coin)
 
         player.draw(screen)
+        enemy.draw(screen)
 
         # Draw UI
         score_text = font.render(f"Coins: {score}/4", True, WHITE)

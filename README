@@ -1,1 +1,8 @@
-your gay
+A python based computer game
+
+Run Platstart.py with Python and pygame installed.
+Move with arrow keys or A/D, and jump with Space, Up, or W.
+Collect all four coins while avoiding the purple enemy chasing you.
+The enemy jumps when you are above it or a platform blocks its path.
+Enemy movement AI is in enemyai.py. Touching the enemy or falling off-screen
+respawns you, removes all collected coins, and restores the coins to the level.
