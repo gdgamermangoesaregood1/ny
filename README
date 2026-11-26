@@ -2,7 +2,22 @@ A python based computer game
 
 Run Platstart.py with Python and pygame installed.
 Move with arrow keys or A/D, and jump with Space, Up, or W.
-Collect all four coins while avoiding the purple enemy chasing you.
-The enemy jumps when you are above it or a platform blocks its path.
-Enemy movement AI is in enemyai.py. Touching the enemy or falling off-screen
-respawns you, removes all collected coins, and restores the coins to the level.
+
+There are 11 levels: the expanded original and 10 additional worlds.
+Worlds are 2400-4000 pixels wide and 1200-1600 pixels tall. The camera follows
+you horizontally and vertically. Collect every coin in a level, then reach
+the exit at the far right to advance. Finish level 11 to win; R plays again.
+Touching the enemy or falling off-screen loses ALL coins and restarts level 1.
+
+Enemy AI is in enemyai.py. It uses A* over standing positions on platforms.
+Walk, jump, and drop edges are simulated using the same physics.py movement
+and collision code as the player. The enemy executes the planned jump inputs,
+lands on platforms, and replans between moves when your destination changes.
+For airborne players, it predicts a landing platform. If there is no physically
+reachable route, it waits instead of flying or teleporting.
+
+Level layouts, coin placements, and exits are in levels.py.
+
+Run the focused tests with: python -B -m unittest -v test_game
+Tests verify every navigation edge, player routes to every coin and exit,
+enemy pursuit up and down each world, A* shortest paths, progression, and death.
